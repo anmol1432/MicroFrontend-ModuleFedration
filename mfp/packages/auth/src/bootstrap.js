@@ -4,21 +4,24 @@ import {createMemoryHistory} from 'history';
 import App from './App';
 
 // Mount function to start up the app
-const mount = (el, { onNavigate, defaultHistory }) => {
-  const history = defaultHistory || createMemoryHistory();
+const mount = (el, { onNavigate, defaultHistory,initialPath, onSignIn  }) => {
+  const history = defaultHistory || createMemoryHistory({
+    initialEntries:[initialPath]
+  });
   
   if(onNavigate){
     history.listen(onNavigate)
   }
 
-  ReactDOM.render(<App history={history}/>, el);
+  console.log(onSignIn)
+  ReactDOM.render(<App onSignIn={onSignIn} history={history}/>, el);
+  
   return {
     onParentNavigate({pathname:nextPathName}) {
       let { pathname } = history.location;
       if (pathname !== nextPathName) {
         history.push(nextPathName);
       }
-      console.log('Container just navigated',location);
     }
   }
 };

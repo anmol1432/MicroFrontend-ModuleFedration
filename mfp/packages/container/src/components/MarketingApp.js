@@ -1,15 +1,15 @@
 import React, {useRef,useEffect} from 'react'
-import { mount as AuthAppMount } from "auth/AuthApp"
+import { mount as marketingMount } from "marketing/MarketingApp"
 import { useHistory } from "react-router-dom";
 
 
-const AuthApp = ({onSignIn}) => {
+const MarketingApp = () => {
     const ref = useRef(null);
     let history = useHistory();
     
     useEffect(() => {
       if (ref.current) {
-       const {onParentNavigate} = AuthAppMount(ref.current,{
+       const {onParentNavigate} = marketingMount(ref.current,{
           onNavigate: ({pathname:nextPathName}) => {
             let { pathname } = history.location;
             // What url marketing app should navigate to
@@ -18,8 +18,7 @@ const AuthApp = ({onSignIn}) => {
               history.push(nextPathName)
             }
           },
-          initialPath: history.location.pathname,
-          onSignIn
+          initialPath: history.location.pathname
         })
       
         history.listen(onParentNavigate)
@@ -31,4 +30,4 @@ const AuthApp = ({onSignIn}) => {
   )
 }
 
-export default AuthApp
+export default MarketingApp
